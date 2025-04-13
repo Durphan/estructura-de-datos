@@ -13,3 +13,14 @@ Actividades y trabajos practicos de la cursada de Estructura de Datos de la Univ
 | Unidad 6 | Diccionarios y conjuntos. Definición y operaciones básicas. Implementación                                                                                       |
 | Unidad 7 | Estructuras dinámicas. Listas. Definición y terminología. Operaciones básicas, agregar, borrar, intercambiar elementos, etc                                      |
 | Unidad 8 | Árboles. Definición y terminología. Árboles binarios. Árboles binarios de búsqueda. Implementación de operaciones básicas.                                       |
+
+## Informacion adicional
+
+### Herramientas
+Python y librerias de Python (vease, Numpy para vectores y matrices)
+
+### Parciales
+Se realizan a papel y con lapicera (F)
+
+### Modalidad
+Combinada (Un dia virtual de practica, un dia presencial de teoria)
