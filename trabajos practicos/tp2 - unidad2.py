@@ -33,10 +33,8 @@ match ejercicio:
         print(f"{bcolors.OKGREEN}Escribir una función que recibe un vector de strings y retorna otro con los mismos elementos del vector de entrada pero en orden inverso.{bcolors.ENDC}")
         def vectorStringInverso(vector: np.str_) -> np.str_:
             nuevoVector = np.empty(len(vector), str)
-            posicionAReemplazar = 0
-            for i in reversed(vector):
-                nuevoVector[posicionAReemplazar] = i
-                posicionAReemplazar +=1
+            for i in range(len(vector)):
+                nuevoVector[i] = vector[len(vector) - i -1]
             return nuevoVector
         vectorPrueba = np.array(["h", "o", "l", "a"])
         print(f"{bcolors.HEADER}Se crea vector {vectorPrueba}{bcolors.ENDC}")
@@ -48,7 +46,7 @@ match ejercicio:
                 print(f"{bcolors.FAIL} Ambos vectores deben tener la misma longitud{bcolors.ENDC}")
                 return np.empty(1, int)
             nuevoVector = np.empty(len(vectorA), int)
-            for i in range(0, len(vectorA)):
+            for i in range(len(vectorA)):
                 print(i)
                 nuevoVector[i] = vectorA[i] + vectorB[i]
             return nuevoVector
