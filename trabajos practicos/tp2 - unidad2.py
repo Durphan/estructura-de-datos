@@ -79,4 +79,35 @@ match ejercicio:
             return nuevoVector
         vector = np.array([1,2,3,4])
         print(f"{bcolors.HEADER}Se crea vector {vector}{bcolors.ENDC}")
-        print(f"Si se quiere agregar un 5 en la posicion 1 entonces la funcion devuelve {agregarElementoAPosicion(vector, 5, 1)}")             
+        print(f"Si se quiere agregar un 5 en la posicion 1 entonces la funcion devuelve {agregarElementoAPosicion(vector, 5, 1)}")
+    case 6:
+        print(f"{bcolors.OKGREEN}Escribir una función que elimine el elemento que ocupa una determinada posición de un vector. Al eliminar, los elementos a la derecha del eliminado, deben desplazarse a la izquierda un lugar y agregar un cero en la última posición.{bcolors.ENDC}")
+        def eliminarPosicion(vector, posicion):
+            nuevoVector = np.copy(vector)
+            for i in range(posicion, len(vector)):
+                if i == len(vector)-1:
+                    nuevoVector[i] = 0
+                    continue
+                nuevoVector[i] = vector[i+1]
+            return nuevoVector
+        vector = np.array([1,2,3,4])
+        print(f"{bcolors.HEADER}Se crea vector {vector}{bcolors.ENDC}")
+        print(f"Si quiero eliminar la posicion 1 entonces daria {eliminarPosicion(vector, 1)}")
+    case 7:
+        print(f"{bcolors.OKGREEN}Escribir una función que elimine todas las apariciones de un determinado elemento de un vector. Al eliminar se deben insertar tantos ceros al final como elementos se eliminaron.{bcolors.ENDC}")
+        def eliminarElemento(vector, elemento):
+            nuevoVector = np.copy(vector)
+            for i in range(len(vector)):
+                print(vector[i])
+                if vector[i] == elemento:
+                    for j in range(i, len(vector)):
+                        if j == len(vector)-1:
+                            nuevoVector[j] = 0
+                            continue
+                        nuevoVector[j] = nuevoVector[j+1]
+            return nuevoVector
+        vector = np.array([1,2,3,4,5,5])
+        print(f"{bcolors.HEADER}Se crea vector {vector}{bcolors.ENDC}")
+        print(f"Si quiero eliminar la posicion 1 entonces daria {eliminarElemento(vector, 5)}")
+
+
