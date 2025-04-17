@@ -98,16 +98,45 @@ match ejercicio:
         def eliminarElemento(vector, elemento):
             nuevoVector = np.copy(vector)
             for i in range(len(vector)):
-                print(vector[i])
-                if vector[i] == elemento:
+                while nuevoVector[i] == elemento:
                     for j in range(i, len(vector)):
                         if j == len(vector)-1:
                             nuevoVector[j] = 0
                             continue
-                        nuevoVector[j] = nuevoVector[j+1]
+                        nuevoVector[j] = nuevoVector[j+1] # A mejorar
             return nuevoVector
-        vector = np.array([1,2,3,4,5,5])
+        vector = np.array([1,2,5,4,5,5])
         print(f"{bcolors.HEADER}Se crea vector {vector}{bcolors.ENDC}")
-        print(f"Si quiero eliminar la posicion 1 entonces daria {eliminarElemento(vector, 5)}")
-
-
+        print(f"Si quiero eliminar el 5 entonces daria {eliminarElemento(vector, 5)}")
+    case 8:
+        print(f"{bcolors.OKGREEN} Escribir un procedimiento que recibe un vector y retorna subvectores{bcolors.ENDC}")
+        def subvectores(vector):
+            print(vector[0:2:1])
+            print(vector[0:3:1])
+            print(vector[2:5:1])
+            print(vector[0::2])
+        vector = np.array([2,1,4,5,2,7,9])
+        print(f"{bcolors.HEADER}Se crea vector {vector}{bcolors.ENDC}")
+        subvectores(vector)
+    case 9:
+        print(f"{bcolors.OKGREEN} Escribir una función que recibe las dimensiones y retorna una matriz rellena de la siguiente forma: En la posición ( n , m ) debe contener n + m. {bcolors.ENDC}")
+        def rellenarMatriz(x, y):
+            matriz = np.zeros([x,y], int)
+            for i in range(len(matriz)):
+                for j in range(len(matriz[i])):
+                    print(matriz[j], " j")
+                    matriz[i,j] = i+j
+            print(matriz)
+        rellenarMatriz(5,5)
+    case 10:
+        print(f"{bcolors.OKGREEN}Escribir una función que recibe una matriz cuadrada (N x N) y calcula la suma de los elementos que están por encima de la diagonal principal{bcolors.ENDC}")
+        def sumaDiagonalDerecha(matriz):
+            total = 0
+            for i in range(len(matriz)):
+                total += matriz[i, i+1:].sum()
+            return total
+        matriz = np.array([[1,2,3,4], [5,6,7,8], [9,10,11,12], [1,2,3,4]])
+        print(f"Se define matriz {bcolors.LINE_SPACE} {matriz}")
+        print(f"La suma de los diagonales es {sumaDiagonalDerecha(matriz)}")
+    case 11:
+        print(f"{bcolors.OKGREEN} Escribir una función que retorna True si una matriz cuadrada es matriz diagonal y False en caso contrario")
