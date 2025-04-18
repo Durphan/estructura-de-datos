@@ -140,3 +140,11 @@ match ejercicio:
         print(f"La suma de los diagonales es {sumaDiagonalDerecha(matriz)}")
     case 11:
         print(f"{bcolors.OKGREEN} Escribir una función que retorna True si una matriz cuadrada es matriz diagonal y False en caso contrario")
+        def esDiagonal(matriz):
+            matrizAComparar = np.zeros([len(matriz), len(matriz[0:len(matriz):1])], int)
+            for i in range(1, len(matriz)-1):
+                matrizAComparar[i,i] = matriz[i,i]
+            return (matriz == matrizAComparar).all()
+        matriz = np.array([[0, 0, 0, 0],[0, 2, 0, 0],[0, 0, 4, 0],[0, 0, 0, 0]])
+        print(f"Se define matriz {bcolors.LINE_SPACE} {matriz}")
+        print(f"El resultado en este caso de la funcion es {esDiagonal(matriz)}")
