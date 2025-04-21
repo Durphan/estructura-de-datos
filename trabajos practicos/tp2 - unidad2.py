@@ -141,11 +141,12 @@ match ejercicio:
     case 11:
         print(f"{bcolors.OKGREEN} Escribir una función que retorna True si una matriz cuadrada es matriz diagonal y False en caso contrario")
         def esDiagonal(matriz):
-            matrizAComparar = np.zeros([len(matriz), len(matriz[0:len(matriz):1])], int)
-            for i in range(1, len(matriz)-1):
-                matrizAComparar[i,i] = matriz[i,i]
-            return (matriz == matrizAComparar).all()
-        matriz = np.array([[0, 0, 0, 0],[0, 2, 0, 0],[0, 0, 4, 0],[0, 0, 0, 0]])
+            for i in range(len(matriz)):
+                for j in range(len(matriz[i])):
+                    if i != j and matriz[i,j] != 0:
+                        return False
+            return True
+        matriz = np.array([[1,0,0],[0,2,0],[0,0,3]])
         print(f"Se define matriz {bcolors.LINE_SPACE} {matriz}")
         print(f"El resultado en este caso de la funcion es {esDiagonal(matriz)}")
     case 12:

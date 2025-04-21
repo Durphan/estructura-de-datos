@@ -1,3 +1,5 @@
+import numpy as np
+
 ejercicio = int(input("Seleccione el numero de ejercicio que desea revisar"))
 
 class bcolors:
@@ -180,7 +182,7 @@ match ejercicio:
     case 5:
         print(f"{bcolors.OKGREEN} Crear una clase llamada `cancion' que modele una cancion con su nombre, autor, duracion, genero (rock, jazz, blues, funk, raggae o rap), año de edicion, numeroLikes {bcolors.ENDC}")
         
-        class invalidSongError(Exception):
+        class invalid_song_error(Exception):
             "Exception raised for invalid song."
             pass
 
@@ -193,7 +195,9 @@ match ejercicio:
                 self.genero = genero
                 self.anio_edicion = anio_edicion
                 self.numero_likes = numero_likes
-                if genero not in ["rock", "jazz", "blues", "funk", "raggae", "rap"]:
+                for i in np.array(["rock", "jazz", "blues", "funk", "raggae", "rap"]):
+                    if i == genero:
+                        break
                     raise ValueError("El genero debe ser rock, jazz, blues, funk, raggae o rap")
             
             def __str__(self):
@@ -223,7 +227,7 @@ match ejercicio:
             def mas_votada(self, cancionB):
                 if self.autor == cancionB.get_autor() and self.genero == cancionB.get_genero():
                     return self.numero_likes > cancionB.get_cantidad_likes()
-                raise invalidSongError("Las canciones no son del mismo autor o genero")
+                raise invalid_song_error("Las canciones no son del mismo autor o genero")
         
         cancionA = Cancion("Cancion A", "Autor A", 3, "rock", 2020, 10)
         cancionB = Cancion("Cancion B", "Autor A", 4, "rock", 2020, 20)
