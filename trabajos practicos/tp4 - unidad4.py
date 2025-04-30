@@ -175,14 +175,28 @@ match actividad:
         else:
             print(f"El elemento {elemento} no se encuentra en el vector")
     case 16:
-        print(f"{bcolors.OKGREEN} Escribir una función que implemente de forma recursiva el algoritmo de ordenamiento por inserción.{bcolors.ENDC}")
-        def ordenamientoPorInsercion(vector:np.ndarray, n:int) -> np.ndarray:
-            if n <= 1:
-                return vector
-            for i in range(n-1):
-                if vector[i] > vector[i+1]:
-                    vector[i], vector[i+1] = vector[i+1], vector[i]
-            return ordenamientoPorInsercion(vector, n-1)
-        vector = np.array([5,4,3,2,1])
+        print(f"{bcolors.OKGREEN} Escribir una funcion recursiva para encontrar el maximo elemento de un vector.{bcolors.ENDC}")
+        def maximoElemento(vector:np.ndarray, posicion:int, maximo:any) -> int:
+            if posicion == len(vector)-1:
+                return maximo
+            if vector[posicion] > maximo:
+                return maximoElemento(vector, posicion+1, vector[posicion])
+            return maximoElemento(vector, posicion+1, maximo)
+        vector = np.array([1,2,3,4,50,6,95,8,9])
         print(f"El vector es {vector}")
-        print(f"El vector ordenado es {ordenamientoPorInsercion(vector, len(vector))}")
+        print(f"El maximo elemento del vector es {maximoElemento(vector, 0, 0)}")
+    case 17:
+        print(f"{bcolors.OKGREEN} Escribir una funcion recursiva para encontrar la posicion del maximo elemento de un vector.{bcolors.ENDC}")
+        def posicionMaximoElemento(vector:np.ndarray, posicion:int, maximo:any, posicionMaximo:int) -> int:
+            if posicion == len(vector)-1 and vector[posicion] > maximo:
+                return posicion
+            if posicion == len(vector)-1:
+                return posicionMaximo
+            if vector[posicion] > maximo:
+                return posicionMaximoElemento(vector, posicion+1, vector[posicion], posicion)
+            return posicionMaximoElemento(vector, posicion+1, maximo, posicionMaximo)
+        vector = np.array([1,2,3,4,50,6,95,8,9,1,1,1,1,1,1,1,1,1,1])
+        print(f"El vector es {vector}")
+        print(f"La posicion del maximo elemento del vector es {posicionMaximoElemento(vector, 0, 0, 0)}")
+
+    
