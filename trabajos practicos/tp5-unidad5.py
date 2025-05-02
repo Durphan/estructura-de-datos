@@ -15,6 +15,17 @@ actividad = int(input("Ingrese el número de actividad: "))
 
 emptyStack = "La pila está vacía"
 
+emptyQueue = "La cola está vacía"
+class EmptyStack(Exception):
+    def __init__(self):
+        self.message = emptyStack
+        super().__init__(self.message)
+        
+class EmptyQueue(Exception):
+    def __init__(self):
+        self.message = emptyQueue
+        super().__init__(self.message)
+
 class Pila:
         def __init__(self, listaInicial=None):
             if listaInicial is not None:
@@ -31,12 +42,12 @@ class Pila:
         def pop(self):
          if not self.is_empty():
             return self.items.pop()
-         raise IndexError(emptyStack)
+         raise EmptyStack()
 
         def peek(self):
          if not self.is_empty():
            return self.items[-1]
-         raise IndexError(emptyStack)
+         raise EmptyStack()
 
         def size(self):
          return len(self.items)
@@ -67,12 +78,12 @@ class Cola:
             def dequeue(self):
                 if not self.is_empty():
                     return self.items.pop(0)
-                raise IndexError(emptyStack)
+                raise EmptyQueue()
 
             def top(self):
                 if not self.is_empty():
                     return self.items[0]
-                raise IndexError(emptyStack)
+                raise EmptyQueue()
 
             def size(self):
                 return len(self.items)
@@ -107,12 +118,12 @@ match actividad:
             def pop(self):
                 if not self.is_empty():
                     return self.items.pop()
-                raise IndexError(emptyStack)
+                raise EmptyStack()
 
             def peek(self):
                 if not self.is_empty():
                     return self.items[-1]
-                raise IndexError(emptyStack)
+                raise EmptyStack()
 
             def size(self):
                 return len(self.items)
@@ -280,12 +291,12 @@ match actividad:
             def dequeue(self):
                 if not self.is_empty():
                     return self.items.pop(0)
-                raise IndexError(emptyStack)
+                raise EmptyQueue()
 
             def top(self):
                 if not self.is_empty():
                     return self.items[0]
-                raise IndexError(emptyStack)
+                raise EmptyQueue()
 
             def size(self):
                 return len(self.items)
@@ -300,4 +311,16 @@ match actividad:
 
             def __repr__(self):
                 return str(self.items) 
-            
+    case 12:
+            print(f"{bcolors.OKGREEN} Escribir una función que invierta el orden de una cola. No debe devolver una nueva cola invertida, sino invertir la cola que ingresa por parámetro. {bcolors.ENDC}")
+            def invertirCola(colaAInvertir:Cola) -> None:
+                pilaAux = Pila()
+                while not colaAInvertir.is_empty():
+                    pilaAux.push(colaAInvertir.dequeue())
+                while not pilaAux.is_empty():
+                    colaAInvertir.enqueue(pilaAux.pop())
+            cola = Cola([1,2,3,4])
+            print(f"{bcolors.OKBLUE}Cola inicial: {cola} {bcolors.ENDC}")
+            invertirCola(cola)
+            print(f"{bcolors.OKBLUE}Cola invertida: {cola} {bcolors.ENDC}")
+                
