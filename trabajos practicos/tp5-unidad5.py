@@ -323,4 +323,100 @@ match actividad:
             print(f"{bcolors.OKBLUE}Cola inicial: {cola} {bcolors.ENDC}")
             invertirCola(cola)
             print(f"{bcolors.OKBLUE}Cola invertida: {cola} {bcolors.ENDC}")
-                
+    case 13:
+        print(f"{bcolors.OKGREEN} Escribir una función que extraiga el primer elemento de una cola y lo ponga en el final, respetando el orden del resto de los elementos.{bcolors.ENDC}")
+        def invertirPrimerElemento(colaAInvertir:Cola) -> None:
+            colaAInvertir.enqueue(colaAInvertir.dequeue())
+        cola = Cola([1,2,3,4])
+        print(f"{bcolors.OKBLUE}Cola inicial: {cola} {bcolors.ENDC}")
+        invertirPrimerElemento(cola)
+        print(f"{bcolors.OKBLUE}Cola después de invertir el primer elemento: {cola} {bcolors.ENDC}")
+    case 14:
+        print(f"{bcolors.OKGREEN} Escribir una función que coloque en el principio de una cola un nuevo elemento. {bcolors.ENDC}")
+        def colarAlPrincipio(colaAColar:Cola, elemento:any) -> None:
+            colaAux = Cola()
+            colaAux.enqueue(elemento)
+            while not colaAColar.is_empty():
+                colaAux.enqueue(colaAColar.dequeue())
+            while not colaAux.is_empty():
+                colaAColar.enqueue(colaAux.dequeue())
+        cola = Cola([1,2,3,4])
+        print(f"{bcolors.OKBLUE}Cola inicial: {cola} {bcolors.ENDC}")
+        colarAlPrincipio(cola, 5)
+        print(f"{bcolors.OKBLUE}Cola después de colocar el elemento 5 al principio: {cola} {bcolors.ENDC}")
+    case 15:
+        print(f"{bcolors.OKGREEN} Escribir una función que elimine de una cola todas las ocurrencias de un elemento dado. {bcolors.ENDC}")
+        def eliminarElemento(cola:Cola, elemento:any) -> None:
+            colaAux = cola.clone()
+            cola.clear()
+            while not colaAux.is_empty():
+                if colaAux.top() == elemento:
+                    colaAux.dequeue()
+                    continue
+                cola.enqueue(colaAux.dequeue())
+        cola = Cola([1,2,3,4,5,1])
+        print(f"{bcolors.OKBLUE}Cola inicial: {cola} {bcolors.ENDC}")
+        eliminarElemento(cola, 1)
+        print(f"{bcolors.OKBLUE}Cola después de eliminar el elemento 1: {cola} {bcolors.ENDC}")
+    case 16:
+        print(f"{bcolors.OKGREEN} Escribir una función que reciba un numero entero y devuelva una cola de numeros primos y otra de numeros no primos. {bcolors.ENDC}")
+        def esPrimo(numero:int, n:int=None) -> bool:
+            if n is None:
+                n = numero-1
+            if n == 1 or n == 0:
+                return True
+            if numero % n == 0:
+                return False
+            return esPrimo(numero, n-1)
+        def colasDePrimosYNoPrimos(cola:Cola) -> list[Cola, Cola]:
+            colaPrimos = Cola()
+            colaNoPrimos = Cola()
+            colaAux = cola.clone()
+            while not colaAux.is_empty():
+                if esPrimo(colaAux.top()):
+                    colaNoPrimos.enqueue(colaAux.dequeue())
+                    continue
+                colaPrimos.enqueue(colaAux.dequeue())
+            return [colaPrimos, colaNoPrimos]
+        cola = Cola([1,2,3,4,5,6])
+        print(f"{bcolors.OKBLUE}Cola inicial: {cola} {bcolors.ENDC}")
+        colas = colasDePrimosYNoPrimos(cola)
+        print(f"{bcolors.OKBLUE}Cola de primos: {colas[0]} {bcolors.ENDC}")
+        print(f"{bcolors.OKBLUE}Cola de no primos: {colas[1]} {bcolors.ENDC}")
+    case 17:
+        print(f"{bcolors.OKGREEN}Implementar la función \"mezcla\" de dos colas, que recibe como parámetros dos colas ordenadas de menor a mayor y devuelve una nueva cola con la unión de ambas colas de entrada con sus elementos ordenados de la misma manera.{bcolors.ENDC}")
+        def unionMenorAMayor(colaMenor:Cola, colaMayor:Cola) -> Cola:
+            colaUnida = Cola()
+            while not colaMayor.is_empty() or not colaMenor.is_empty():
+                if colaMenor.is_empty():
+                    colaUnida.enqueue(colaMayor.dequeue())
+                    continue
+                if colaMayor.is_empty():
+                    colaUnida.enqueue(colaMenor.dequeue())
+                    continue
+                if colaMenor.top() < colaMayor.top():
+                    colaUnida.enqueue(colaMenor.dequeue())
+                    continue
+                colaUnida.enqueue(colaMayor.dequeue())
+            return colaUnida
+        cola1 = Cola([1,2,3,4])
+        cola2 = Cola([5,6,7,8])
+        print(f"{bcolors.OKBLUE}Cola 1: {cola1} {bcolors.ENDC}")
+        print(f"{bcolors.OKBLUE}Cola 2: {cola2} {bcolors.ENDC}")
+        colaUnida = unionMenorAMayor(cola1, cola2)
+        print(f"{bcolors.OKBLUE}Cola unida: {colaUnida} {bcolors.ENDC}")
+    case 18:
+        print(f"{bcolors.OKGREEN}Implementar la función que recibe como parámetro una cola y elimina todos los números pares.{bcolors.ENDC}")
+        def eliminarParesDeCola(cola:Cola) -> None:
+            colaAux = cola.clone()
+            cola.clear()
+            while not colaAux.is_empty():
+                if colaAux.top() % 2 == 0:
+                    colaAux.dequeue()
+                    continue
+                cola.enqueue(colaAux.dequeue())
+        cola = Cola([1,2,3,4,5,6])
+        print(f"{bcolors.OKBLUE}Cola inicial: {cola} {bcolors.ENDC}")
+        eliminarParesDeCola(cola)
+        print(f"{bcolors.OKBLUE}Cola después de eliminar los pares: {cola} {bcolors.ENDC}")
+            
