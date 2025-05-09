@@ -10,7 +10,7 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
-    LINE_SPACE = '\n\n'
+    LINE_SPACE = '\n'
 
 actividad = int(input("¿Qué actividad quieres Ver (Del 1 al 14)"))
 match actividad:
