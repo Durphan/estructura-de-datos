@@ -53,44 +53,72 @@ match actividad:
         print(f"{bcolors.OKGREEN} El Correo Argentino nos pidió ayuda para organizar los paquetes de cada sucursal. Todos los días llegan paquetes con diferente peso que son apilados para luego ser distribuidos{bcolors.ENDC}")
         class Paquete:
             def __init__(self, peso:int, contenido:str) -> None:
-                self.peso = peso
-                self.contenido = contenido
-            
-            def __str__(self) -> str:
-                return "El paquete tiene de peso " + str(self.peso) + " y de contenido tiene " + {self.contenido}
+                self._peso = peso
+                self._contenido = contenido
+       
             
             def peso(self) -> int:
-               return self.peso
+               return self._peso
             
             def contenido(self) -> str:
-               return self.contenido
+               return self._contenido
         
+            def __str__(self) -> str:
+                return f"El paquete tiene de peso {self._peso} y de contenido {self._contenido}"
         class ElCorreoNoCierra:
-            def __init__(self, paquetes:Pila[Paquete]) -> None:
+            def __init__(self, paquetes:Pila = None) -> None:
                self.paquetes = paquetes
+               if self.paquetes is None:
+                    self.paquetes = Pila()
             
             def pila_paquetes(self) -> Pila:
                pilaAux:Pila = self.paquetes.clone()
                return pilaAux
             
-            def agregarPaquete(self, contenido:str, peso:str):
-               pilaAux = Pila()
-               paquete = Paquete(peso,contenido)
-               pilaClon = self.paquetes.clone()
-               while not pilaClon.is_empty():
-                  if paquete.peso() > pilaClon.peek().peso():
-                     pilaAux.push(paquete)
-                  pilaAux.push(pilaClon.pop())
-               self.paquetes = pilaAux
+            def agregar_paquete(self, contenido:str, peso:int):
+                nuevoPaquete = Paquete(peso, contenido)
+                pilaAux = Pila()
+                if self.paquetes.is_empty():
+                    self.paquetes.push(nuevoPaquete)
+                else:
+                    while not self.paquetes.is_empty() and self.paquetes.peek().peso() < nuevoPaquete.peso():
+                        pilaAux.push(self.paquetes.pop())
+                    self.paquetes.push(nuevoPaquete)
+                    while not pilaAux.is_empty():
+                        self.paquetes.push(pilaAux.pop())
 
-               if self.paquetes.is_empty():
-                  self.paquetes.push(paquete)
-
-            def juntarCorreos(self, correoB) -> None:
+            def juntar_correos(self, correoB) -> None:
                pilaClon = correoB.pila_paquetes()
                while not pilaClon.is_empty():
-                  self.agregarPaquete(pilaClon.peek().contenido(), pilaClon.peek().peso())
+                  self.agregar_paquete(pilaClon.peek().contenido(), pilaClon.peek().peso())
                   pilaClon.pop()
+                  
+            def __str__(self) -> str:
+                pilaClon = self.paquetes.clone()
+                while not pilaClon.is_empty():
+                    print(f"{bcolors.OKCYAN}{pilaClon.peek().__str__()}{bcolors.ENDC}")
+                    pilaClon.pop()
+                return "Fin de la lista de paquetes"
+
+            
+        paquete = Paquete(5, "carta")
+        correoA= ElCorreoNoCierra()
+        correoA.agregar_paquete("carta", 5)
+        correoA.agregar_paquete("carta", 3)
+        correoA.agregar_paquete("carta", 7)
+        correoA.agregar_paquete("carta", 1)
+        print(f"{bcolors.OKCYAN}El correo A tiene los siguientes paquetes: {correoA.__str__()} {bcolors.ENDC}")
+        correoB= ElCorreoNoCierra()
+        correoB.agregar_paquete("carta", 2)
+        correoB.agregar_paquete("carta", 4)
+        correoB.agregar_paquete("carta", 6)
+        correoB.agregar_paquete("carta", 8)
+        print(f"{bcolors.OKCYAN}El correo B tiene los siguientes paquetes: {correoB.__str__()} {bcolors.ENDC}")
+        correoA.juntar_correos(correoB)
+        print(f"{bcolors.OKCYAN}El correo A tiene los siguientes paquetes: {correoA.__str__()} {bcolors.ENDC}")
+        
+        
+        
                
     case 9:
         print(f"{bcolors.OKGREEN} Escribir la función recursiva estaIncluido(arreglo1, arreglo2), que retorna verdadero si el arreglo1 está incluido al inicio o al final del arreglo2.{bcolors.ENDC}")
@@ -102,10 +130,13 @@ match actividad:
             return (a[0] == b[0] or a[-1] == b[-1]) and estaIncluido(a[1:len(a)-1], b[1:len(b)-1])
         arr1 = [2, 5, 1] 
         arr2 = [1, 9, 3, 4, 2, 5, 1]
-        print(estaIncluido(arr1,arr2))
+        print(f"{bcolors.OKCYAN}El arreglo 1 es {arr1} y el arreglo 2 es {arr2}{bcolors.ENDC}")
+        print(f"{bcolors.OKBLUE}El arreglo 1 está incluido en el arreglo 2: {estaIncluido(arr1,arr2)}{bcolors.ENDC}")
+        print(f"{bcolors.OKBLUE}El arreglo 2 está incluido en el arreglo 1: {estaIncluido(arr2,arr1)}{bcolors.ENDC}")
         arr3 = [2, 5, 1, 6, 1, 8, 5]
         arr4 = [4, 3, 2, 5, 1, 8, 2]
-        print(estaIncluido(arr1,arr3))
-        print(estaIncluido(arr1,arr4))
+        print(f"{bcolors.OKCYAN}El arreglo 1 es {arr1} y el arreglo 3 es {arr3}{bcolors.ENDC}")
+        print(f"{bcolors.OKCYAN}El arreglo 1 esta incluido en el arreglo 3: {estaIncluido(arr1,arr3)}{bcolors.ENDC}")
+        print(f"{bcolors.OKCYAN}El arreglo 3 esta incluido en el arreglo 1: {estaIncluido(arr3,arr1)}{bcolors.ENDC}")
 
     
