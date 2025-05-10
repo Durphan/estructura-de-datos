@@ -54,6 +54,8 @@ match actividad:
     case 5:
         print(f"{bcolors.OKGREEN}En las redes sociales se produce una continua interacción y cada vez que un usuario realiza una acción, la comunidad se modifica, Durante los primeros 20 posteos, siempre suma una cantidad fija de 1000 (mil) seguidores en cada uno, A partir del posteo 21, la cantidad de seguidores duplica la cantidad previa de seguidores, mas 500 seguidores extra. {bcolors.ENDC}")
         def cantidadSeguidoresTotalConPosteos(posteos:int):
+            if posteos < 0:
+                raise ValueError("La cantidad de posteos no puede ser menor a 0")
             if posteos == 0:
                 return 1000
             if posteos <= 20:
