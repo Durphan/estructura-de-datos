@@ -81,6 +81,9 @@ class Cola:
         new_queue.items = self.items.copy()
         return new_queue
     
+    def clear(self):
+         self.items = []
+    
     
 
 match actividad:
@@ -120,6 +123,8 @@ match actividad:
             
             def equals(self, horario2):
                 return horario2.horas() == self._horas and horario2.minutos() == self._minutos and horario2.segundos() == self._segundos
+            
+        
         
         class Venta:
             def __init__(self, horario:Horario, monto:float):
@@ -146,6 +151,17 @@ match actividad:
             
             def agregar_venta(self, monto:float, horario:Horario) -> None:
                 ventaNueva = Venta(horario, monto)
+                colaAux = self._cola.clone()
+                self._cola.clear()
+                if self._cola.is_empty():
+                    self._cola.push(ventaNueva)
+                while not colaAux.is_empty() and ventaNueva.horario().horas() >= colaAux.first().horario().horas() and ventaNueva.horario().minutos() >= colaAux.first().horario().minutos() and ventaNueva.horario().segundos() >= colaAux.first().horario().segundos():
+                    self._cola.push(colaAux.pop())
+                self._cola.push(ventaNueva)
+                while not colaAux.is_empty():
+                    self._cola.push(colaAux.pop())
+                    
+                
                 self._cola.push(ventaNueva)
             
             def cantidad_de_ventas_grandes(self, montoMinimo:float) -> int:
@@ -182,6 +198,7 @@ match actividad:
                         monto += colaAux.first().monto()
                     colaAux.pop()
                 return monto
+            
         caja = CajaDeSupermercado("Juan", 1)
         caja.agregar_venta(100, Horario(20, 30, 0))
         caja.agregar_venta(200, Horario(20, 30, 0))
@@ -196,8 +213,126 @@ match actividad:
         print(f"{bcolors.OKCYAN}El horario 1 es igual al horario 2: {Horario1.equals(Horario2)}{bcolors.ENDC}")
         print(f"{bcolors.OKCYAN}El monto de las ventas en el horario 20:30:00 es {caja.monto_ventas_horario(Horario(20, 30, 0))}{bcolors.ENDC}")
                            
+    case 3:
+        print(f"{bcolors.OKGREEN} Implementar la función recursiva `inversionRecursiva` que recibe por parámetro un string y retorna un nuevo string conteniendo el string de entrada invertido. {bcolors.ENDC}")
+        def inversionRecursiva(string:str, stringInverso:list) -> str:
+            if len(string) == 0:
+                return "".join(stringInverso)
+            stringInverso.append(string[len(string)-1])
+            
+            return inversionRecursiva(string[:len(string)-1], stringInverso)
         
+        
+        string = "Hola Mundo"
+        print(f"{bcolors.OKCYAN}El string original es {string}{bcolors.ENDC}")
+        print(f"{bcolors.OKCYAN}El string invertido es {inversionRecursiva(string, [])}{bcolors.ENDC}")
+    
+    case 4:
+        print(f"{bcolors.OKGREEN} Crear el TDA `Receta`, que contiene una arreglo con los ingredientes de una receta.{bcolors.ENDC}")
+        
+        class Ingrediente:
+            def __init__(self, nombre:str, cantidad:int, calorias:int):
+                self._nombre = nombre
+                self._cantidad = cantidad
+                self._calorias = calorias
                 
+            def cantidad(self):
+                return self._cantidad
+            
+            def calorias(self):
+                return self._calorias
+            
+            def nombre(self):
+                return self._nombre
+            
+            def __str__(self):
+                return f"El ingrediente tiene de nombre {self._nombre}, de cantidad {self._cantidad} y de calorias {self._calorias}"
+        
+        class Receta:
+            def __init__(self, tipoReceta:str, ingredientes:np.asarray = None):
+                self._tipo_receta=tipoReceta
+                self._ingredientes = ingredientes
+                if self._ingredientes is None:
+                    self._ingredientes = np.empty(20, dtype=Ingrediente)
+                else:
+                    if len(self._ingredientes) > 20:
+                        raise ValueError("No deben de ser mas de 20 ingredientes")
+                if self._tipo_receta not in ["omnivora", "vegetariana", "vegana"]:
+                    raise ValueError("No se permiten recetas que no sean omnivoras, vegetarianas o veganas")
+                
+            def cantidad_ingredientes(self) -> int:
+                cantidadIngredientes = 0
+                for ingrediente in self._ingredientes:
+                    if ingrediente != None:
+                        cantidadIngredientes += ingrediente.cantidad()
+                return cantidadIngredientes
+            
+            def registrar_ingrediente(self, ingredienteARegistrar:Ingrediente) -> None:
+                if len(self._ingredientes) > 20:
+                    raise ValueError("No se puede agregar mas de 20 ingredientes")
+                for nroIngrediente in range(len(self._ingredientes)):
+                    if self._ingredientes[nroIngrediente] == None:
+                        self._ingredientes[nroIngrediente] = ingredienteARegistrar
+                        break
+            
+            def total_calorias(self) -> int:
+                caloriasTotales = 0
+                for ingrediente in self._ingredientes:
+                    if ingrediente != None:
+                        caloriasTotales += ingrediente.calorias()
+                return caloriasTotales
+            
+            def ingrediente_mas_calorico(self) -> Ingrediente:
+                posicion = 0
+                for nroIngrediente in range(len(self._ingredientes)):
+                    if self._ingredientes[nroIngrediente] != None and self._ingredientes[nroIngrediente].calorias() > self._ingredientes[posicion].calorias():
+                        posicion = nroIngrediente
+                return self._ingredientes[posicion]
+            
+            def __str__(self) -> str:
+                return f"Esta receta es de tipo {self._tipo_receta} y tiene los siguientes ingredientes: {self._ingredientes}"
+            
+            def ingredientes(self) -> np.asarray:
+                return self._ingredientes
+
+        
+            
+            
+        receta = Receta("omnivora")
+        ingrediente1 = Ingrediente("carne", 2, 500)
+        ingrediente2 = Ingrediente("verdura", 1, 100)
+        ingrediente3 = Ingrediente("fruta", 1, 200)
+        receta.registrar_ingrediente(ingrediente1)
+        receta.registrar_ingrediente(ingrediente2)
+        receta.registrar_ingrediente(ingrediente3)
+        print(f"{bcolors.OKCYAN}La receta es de tipo {receta._tipo_receta} y tiene los siguientes ingredientes: {bcolors.ENDC}")
+        for ingrediente in receta.ingredientes():
+            if ingrediente != None:
+                print(f"{bcolors.OKCYAN}{ingrediente.__str__()}{bcolors.ENDC}")
+        print(f"{bcolors.OKCYAN}La receta tiene un total de {receta.cantidad_ingredientes()} ingredientes{bcolors.ENDC}")
+        print(f"{bcolors.OKCYAN}La receta tiene un total de {receta.total_calorias()} calorias{bcolors.ENDC}")
+        print(f"{bcolors.OKCYAN}El ingrediente mas calorico es {receta.ingrediente_mas_calorico().__str__()}{bcolors.ENDC}")
+            
+    case 5:
+        print(f"{bcolors.OKGREEN} Escribir la función recursiva `sonIguales` que recibe dos strings del mismo tamaño (no vacías) y retorna True si son iguales y False en caso contrario.{bcolors.ENDC}")
+        def sonIguales(str1:str, str2:str) -> bool:
+            if len(str1) != len(str2):
+                raise ValueError("Los strings no son del mismo tamaño")
+            if len(str1) == 0:
+                return True
+            if str1[0] != str2[0]:
+                return False
+            return sonIguales(str1[1:], str2[1:])
+        
+        
+        str1 = "Hola Mundose"
+        str2 = "Hola Mundoas"
+        print(f"{bcolors.OKCYAN}El string 1 es {str1} y el string 2 es {str2}{bcolors.ENDC}")
+        print(f"{bcolors.OKCYAN}Los strings son iguales: {sonIguales(str1, str2)}{bcolors.ENDC}")
+        str4 = "asdasdasdasfasd"
+        str5 = "asdasdasdasfast"
+        print(f"{bcolors.OKCYAN}El string 1 es {str4} y el string 2 es {str5}{bcolors.ENDC}")
+        print(f"{bcolors.OKCYAN}Los strings son iguales: {sonIguales(str4, str5)}{bcolors.ENDC}")
             
     case 6:
         print(f"{bcolors.OKGREEN} El Correo Argentino nos pidió ayuda para organizar los paquetes de cada sucursal. Todos los días llegan paquetes con diferente peso que son apilados para luego ser distribuidos{bcolors.ENDC}")
@@ -267,9 +402,6 @@ match actividad:
         print(f"{bcolors.OKCYAN}El correo B tiene los siguientes paquetes: {correoB.__str__()} {bcolors.ENDC}")
         correoA.juntar_correos(correoB)
         print(f"{bcolors.OKCYAN}El correo A tiene los siguientes paquetes: {correoA.__str__()} {bcolors.ENDC}")
-        
-        
-        
                
     case 9:
         print(f"{bcolors.OKGREEN} Escribir la función recursiva estaIncluido(arreglo1, arreglo2), que retorna verdadero si el arreglo1 está incluido al inicio o al final del arreglo2.{bcolors.ENDC}")
