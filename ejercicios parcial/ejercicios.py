@@ -402,7 +402,108 @@ match actividad:
         print(f"{bcolors.OKCYAN}El correo B tiene los siguientes paquetes: {correoB.__str__()} {bcolors.ENDC}")
         correoA.juntar_correos(correoB)
         print(f"{bcolors.OKCYAN}El correo A tiene los siguientes paquetes: {correoA.__str__()} {bcolors.ENDC}")
-               
+        
+    case 7:
+        print(f"{bcolors.OKGREEN}  implementar un algoritmo recursivo que cuente la cantidad de números pares y otro algoritmo recursivo para contar la cantidad de números mayores que 10 en un arreglo de números enteros. {bcolors.ENDC}")
+        def cantidadNumerosPares(arreglo:np.asarray) -> int: # Prueba
+            
+            def contar(i:int, cantidad:int) -> int:
+                if i == len(arreglo):
+                    return cantidad
+                if arreglo[i] % 2 == 0:
+                    return contar(i+1, cantidad+1)
+                return contar(i+1, cantidad)
+            
+            return contar(0, 0)
+        
+        def cantidadNumerosMayoresA10(arreglo:np.asarray) -> int:
+            
+            def contar(i:int, cantidad:int) -> int:
+                if i == len(arreglo):
+                    return cantidad
+                if arreglo[i] > 10:
+                    return contar(i+1, cantidad+1)
+                return contar(i+1, cantidad)
+            
+            return contar(0, 0)
+        
+        def masParesQue10(arreglo:np.asarray) -> bool:
+            return cantidadNumerosPares(arreglo) > cantidadNumerosMayoresA10(arreglo)
+        
+        arreglo = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+        print(f"{bcolors.OKCYAN}El arreglo es {arreglo}{bcolors.ENDC}")
+        print(f"{bcolors.OKCYAN}La cantidad de numeros pares es {cantidadNumerosPares(arreglo)}{bcolors.ENDC}")
+        print(f"{bcolors.OKCYAN}La cantidad de numeros mayores a 10 es {cantidadNumerosMayoresA10(arreglo)}{bcolors.ENDC}")
+        print(f"{bcolors.OKCYAN}El arreglo tiene mas numeros pares que mayores a 10: {masParesQue10(arreglo)}{bcolors.ENDC}")
+        
+    case 8:
+        print(f"{bcolors.OKGREEN} Implementar el TDA EstacionamientoUnaHur {bcolors.ENDC}")
+        class Auto:
+            def __init__(self, patente:int, horario:int) -> None:
+                self._patente = patente
+                self._horario = horario
+            
+            def horario(self) -> int:
+                return self._horario
+            
+            def patente(self) -> int:
+                return self._patente
+            
+            def __repr__(self) -> str:
+                return "Auto"
+            
+        class EstacionamientoUnahur:
+            def __init__(self,filas:int) -> None:
+                self._estacionamiento = np.empty((filas,filas), dtype=Auto)
+            
+            def estacionar(self, patente:int, horaIngreso:int) -> list[int]:
+                nuevoAuto = Auto(patente, horaIngreso)
+                for i in range(len(self._estacionamiento)):
+                    for j in range(len(self._estacionamiento[i])):
+                        if type(self._estacionamiento[i,j]) is Auto:
+                            continue
+                        self._estacionamiento[i,j] = nuevoAuto
+                        return [i,j]
+                raise ValueError("No hay plazas disponibles")
+            
+            def salir(self, patente:int) -> int:
+                for i in range(len(self._estacionamiento)):
+                    for j in range(len(self._estacionamiento[i])):
+                        if type(self._estacionamiento[i,j]) is Auto and self._estacionamiento[i,j].patente() == patente:
+                            horarioEntrada = self._estacionamiento[i,j].horario()
+                            self._estacionamiento[i,j] = None
+                            return horarioEntrada
+                return 0
+            
+            def esta_vacio(self) -> bool:
+                for fila in self._estacionamiento:
+                    for plaza in fila:
+                        if type(plaza) is Auto:
+                            return False
+                return True
+            
+            def cantidad_autos__hora(self,hora:int) -> int:
+                cantidad = 0
+                for fila in self._estacionamiento:
+                    for plaza in fila:
+                        if type(plaza) is Auto and plaza.horario() == hora:
+                            cantidad +=1
+                return cantidad
+            
+            def __repr__(self):
+                return str(self._estacionamiento)
+        estacionamiento = EstacionamientoUnahur(5)
+        print(f"{bcolors.OKCYAN}El estacionamiento tiene las siguientes plazas {estacionamiento.__repr__()}{bcolors.ENDC}")
+        print(f"{bcolors.OKCYAN}El estacionamiento esta vacio: {estacionamiento.esta_vacio()}{bcolors.ENDC}")
+        print(f"{bcolors.OKCYAN}El auto con patente 1234 fue estacionado en la plaza {estacionamiento.estacionar(1234, 10)}{bcolors.ENDC}")
+        print(f"{bcolors.OKCYAN}El estacionamiento tiene las siguientes plazas {estacionamiento.__repr__()}{bcolors.ENDC}")
+        print(f"{bcolors.OKCYAN}la cantidad de autos en la hora 10 es {estacionamiento.cantidad_autos__hora(10)}{bcolors.ENDC}")
+        print(f"{bcolors.OKCYAN}El estacionamiento esta vacio: {estacionamiento.esta_vacio()}{bcolors.ENDC}")
+        print(f"{bcolors.OKCYAN}El auto que salio con patente 1234, entro a las {estacionamiento.salir(1234)}{bcolors.ENDC}")
+        print(f"{bcolors.OKCYAN}El estacionamiento tiene las siguientes plazas {estacionamiento.__repr__()}{bcolors.ENDC}")
+                                    
+            
+
     case 9:
         print(f"{bcolors.OKGREEN} Escribir la función recursiva estaIncluido(arreglo1, arreglo2), que retorna verdadero si el arreglo1 está incluido al inicio o al final del arreglo2.{bcolors.ENDC}")
         def estaIncluido(a:np.asarray, b:np.asarray) -> bool:
