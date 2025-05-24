@@ -419,4 +419,9 @@ match actividad:
         print(f"{bcolors.OKBLUE}Cola inicial: {cola} {bcolors.ENDC}")
         eliminarParesDeCola(cola)
         print(f"{bcolors.OKBLUE}Cola después de eliminar los pares: {cola} {bcolors.ENDC}")
-            
+
+
+
+		
+	
+	
