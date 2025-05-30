@@ -177,11 +177,11 @@ match actividad:
         diccionario.insert(2, 3)
         diccionario.insert(3, 4)
         diccionario.insert(4, 5)
-        print(diccionario.__repr__())
+        print(diccionario)
         print("Redefiniendo el valor de la clave 1")
         diccionario[1] = 5
         print(diccionario[1])
-        print(diccionario.__repr__())
+        print(diccionario)
     case 3:
         print(f"{bcolors.OKGREEN} Escribir un diccionario con sinónimos. Luego intentar insertar dos pares <clave , significado> con claves repetidas con la operacion insert y ver que sucede. {bcolors.ENDC}")
         diccionario = Diccionario()
@@ -191,7 +191,7 @@ match actividad:
         diccionario.insert("feliz", "contento")
         diccionario.insert("feliz", "contento")
         diccionario.insert("feliz", "alegre")
-        print(diccionario.__repr__())
+        print(diccionario)
         print(diccionario["feliz"])
     case 4:
         print(f"{bcolors.OKGREEN} Escribir una función que dado una lista de enteros me devuelve otra(no necesariamente en el mismo orden) sin los numeros repetidos.{bcolors.ENDC}")
