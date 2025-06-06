@@ -31,6 +31,12 @@ class Nodo:
             self.siguiente.siguiente = nodoAux
         else:
             self.siguiente.agregar_elemento_ordenado_recusivo(elemento)
+
+    def multiplicacion_de_menor_recursivo(self, elemento1, elemento2):
+        if self.valor <= elemento1:
+            self.valor = elemento2*self.valor
+        if self.tiene_siguiente():
+            self.siguiente.multiplicacion_de_menor_recursivo(elemento1, elemento2)
         
 
 class ListaEnlazada:
@@ -282,6 +288,13 @@ class ListaEnlazada:
             nodoAux = nodoAux.siguiente
             if nodoAux.valor <= numero1:
                 nodoAux.valor = numero2 * nodoAux.valor
+
+    def multiplicacion_de_menor_recursivo(self, numero1:int, numero2:int) -> None:
+        if self.is_empty():
+            raise IndexError("No se puede recorrer una lista vacia")
+        self.primero.multiplicacion_de_menor_recursivo(numero1, numero2)
+
+    
     def reemplazar_por_nuevo(self, posicion: int, nuevo_valor: any) -> None:
         if self.is_empty():
             raise IndexError("No se puede recorrer una lista vacia")
@@ -304,8 +317,7 @@ class ListaEnlazada:
             return
         if nodoAux.valor > elemento:
             nodoAAgregar.siguiente = self.primero
-            self.primero = nodoAAgregar
-            return
+            self.primero = nodoAAgregar 
         while nodoAux.tiene_siguiente() and nodoAux.siguiente.valor < elemento:
             nodoAux = nodoAux.siguiente
         nodoAAgregar.siguiente = nodoAux.siguiente
@@ -440,6 +452,14 @@ match actividad:
         print(f"{bcolors.OKGREEN}Lista enlazada creada: {lista}{bcolors.ENDC}")
         lista.multiplicacion_de_menor(3, 2)
         print(f"{bcolors.OKGREEN}Lista enlazada luego de multiplicar los elementos menores a 3 por 2: {lista}{bcolors.ENDC}")
+        lista.vaciar()
+        lista.append(1)
+        lista.append(2)
+        lista.append(3)
+        lista.append(4)
+        lista.append(5)
+        lista.multiplicacion_de_menor_recursivo(3, 2)
+        print(f"{bcolors.OKGREEN}Lista enlazada luego de multiplicar los elementos menores a 3 por 2 de manera recursiva: {lista}{bcolors.ENDC}")
     case 11:
         print(f"{bcolors.HEADER}Escribir una operación del TDA Lista que recibe dos números por parámetro: una posición y un número nuevo. Recorre la lista hasta la posición y reemplaza el número de la lista por el nuevo.{bcolors.ENDC}")
         lista = ListaEnlazada()
