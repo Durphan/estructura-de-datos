@@ -21,6 +21,17 @@ class Nodo:
 
     def tiene_siguiente(self) -> bool:
         return self.siguiente is not None
+    
+    def agregar_elemento_ordenado_recusivo(self, elemento:int) -> None:
+        if self.siguiente is None:
+            self.siguiente = Nodo(elemento)
+        if self.siguiente.valor > elemento:
+            nodoAux = self.siguiente
+            self.siguiente = Nodo(elemento)
+            self.siguiente.siguiente = nodoAux
+        else:
+            self.siguiente.agregar_elemento_ordenado_recusivo(elemento)
+        
 
 class ListaEnlazada:
     def __init__(self) -> None:
@@ -260,6 +271,7 @@ class ListaEnlazada:
                 nodoAux = nodoAux.siguiente.siguiente
                 lista.append(nodoAux.valor)
         return lista
+    
     def multiplicacion_de_menor(self, numero1: int, numero2: int) -> None:
         if self.is_empty():
             raise IndexError("No se puede recorrer una lista vacia")
@@ -298,17 +310,13 @@ class ListaEnlazada:
             nodoAux = nodoAux.siguiente
         nodoAAgregar.siguiente = nodoAux.siguiente
         nodoAux.siguiente = nodoAAgregar
+
+    def agregar_elemento_ordenado_recursivo(self, elemento:int) -> None:
+        if self.is_empty():
+            self.primero = Nodo(elemento)
+        else:
+            self.primero.agregar_elemento_ordenado_recusivo(elemento)
                 
-                
-        
-                
-            
-            
-        
-            
-        
-          
-        
 match actividad:
     case 1:
         print(f"{bcolors.HEADER}Implementar el TDA Lista enlazada simple, con las siguientes operaciones: constructor, vaciar, append, insert, get, pop, len, is_empty, clone, repr {bcolors.ENDC}")
@@ -453,3 +461,6 @@ match actividad:
         print(f"{bcolors.OKGREEN}Lista enlazada creada: {lista}{bcolors.ENDC}")
         lista.agregar_elemento_ordenado(3)
         print(f"{bcolors.OKGREEN}Lista enlazada luego de agregar el elemento 3 en el lugar correcto: {lista}{bcolors.ENDC}")
+        lista.pop(2)
+        lista.agregar_elemento_ordenado_recursivo(3)
+        print(f"{bcolors.OKGREEN}Lista enlazada luego de agregar el elemento 3 en el lugar correcto de manera recursiva: {lista}{bcolors.ENDC}")
