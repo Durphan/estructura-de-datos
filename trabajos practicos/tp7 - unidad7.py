@@ -37,6 +37,13 @@ class Nodo:
             self.valor = elemento2*self.valor
         if self.tiene_siguiente():
             self.siguiente.multiplicacion_de_menor_recursivo(elemento1, elemento2)
+            
+    def indices_elemento_recursivo(self, elemento:any, indice:int, listaIndices:list[int]) -> list[int]:
+        if self.valor == elemento:
+            listaIndices.append(indice)
+        if self.tiene_siguiente():
+            return self.siguiente.indices_elemento_recursivo(elemento, indice+1, listaIndices)
+        return listaIndices
         
 
 class ListaEnlazada:
@@ -202,6 +209,13 @@ class ListaEnlazada:
             nodoAux = nodoAux.siguiente
         return listaIndices
     
+    def indices_elemento_recursivo(self, elemento:any) -> list[int] | list[None]:
+        if self.primero is None:
+            return []
+        return self.primero.indices_elemento_recursivo(elemento, 0,[])
+        
+        
+    
     def eliminar_ocurrencias(self, elemento:any) -> None:
         nodoAux = self.primero
         while nodoAux.valor == elemento: # Si los primeros elementos son iguales al elemento a eliminar, los borra
@@ -323,12 +337,6 @@ class ListaEnlazada:
         nodoAAgregar.siguiente = nodoAux.siguiente
         nodoAux.siguiente = nodoAAgregar
 
-    def agregar_elemento_ordenado_recursivo(self, elemento:int) -> None:
-        if self.is_empty():
-            self.primero = Nodo(elemento)
-        else:
-            self.primero.agregar_elemento_ordenado_recusivo(elemento)
-                
 match actividad:
     case 1:
         print(f"{bcolors.HEADER}Implementar el TDA Lista enlazada simple, con las siguientes operaciones: constructor, vaciar, append, insert, get, pop, len, is_empty, clone, repr {bcolors.ENDC}")
@@ -370,7 +378,9 @@ match actividad:
         lista.append(1)
         print(f"{bcolors.OKGREEN}Lista enlazada creada: {lista}{bcolors.ENDC}")
         indices = lista.indices_elemento(1)
+        indicesRecursivos = lista.indices_elemento_recursivo(1)
         print(f"{bcolors.OKGREEN}Indices del elemento 1 en la lista: {indices}{bcolors.ENDC}")
+        print(f"{bcolors.OKGREEN}Indices del elemento 1 en la lista (recursivo): {indicesRecursivos}{bcolors.ENDC}")
     case 4:
         print(f"{bcolors.HEADER}Escribir una operacion del TDA Lista que elimine todas las ocurrencias de un elemento que recibe por parametro. {bcolors.ENDC}")
         lista = ListaEnlazada()
