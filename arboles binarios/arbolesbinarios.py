@@ -183,19 +183,18 @@ class ArbolBinario:
             return 0
         return profundidadArbol(self.raiz)
             
-    def profundidad_nivel(self, nivel):
-        def medirProfundidadDeNivel(nodo, nivelActual, nivelAMedir):
-            if nodo is not None:
-                if nivelActual < nivelAMedir:
-                    return(
-                    medirProfundidadDeNivel(nodo.hijo_derecho, nivelActual+1, nivelAMedir),
-                    medirProfundidadDeNivel(nodo.hijo_izquierdo, nivelActual+1, nivelAMedir)    
-                    )
-                else:
-                    return 1 + max(medirProfundidadDeNivel(nodo.hijo_derecho, nivelActual, nivelAMedir), medirProfundidadDeNivel(nodo.hijo_izquierdo, nivelActual, nivelAMedir))
-            raise ValueError("El arbol no tiene el nivel seleccionado")
-        return medirProfundidadDeNivel(self.raiz, 0, nivel)
+    def profundidad_elemento(self, elemento):
+        def medirProfundidadDeElemento(nodo, elemento, nivelProfundidad):
+            if nodo is None:
+                return None
+            if nodo.elemento == elemento:
+                return nivelProfundidad
+            izquierda = medirProfundidadDeElemento(nodo.hijo_izquierdo, elemento, nivelProfundidad+1)
             
+            if izquierda is not None:
+                return izquierda
+            
+                
             
                 
         
