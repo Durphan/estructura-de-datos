@@ -190,9 +190,10 @@ class ArbolBinario:
             if nodo.elemento == elemento:
                 return nivelProfundidad
             izquierda = medirProfundidadDeElemento(nodo.hijo_izquierdo, elemento, nivelProfundidad+1)
-            
             if izquierda is not None:
                 return izquierda
+            return medirProfundidadDeElemento(nodo.hijo_derecho, elemento, nivelProfundidad+1)
+        return medirProfundidadDeElemento(self.raiz, elemento, 0)
             
                 
             
