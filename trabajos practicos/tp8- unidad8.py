@@ -303,15 +303,16 @@ class ArbolBinario:
             return contarHojas(nodo.hijo_izquierdo) + contarHojas(nodo.hijo_derecho)
         return contarHojas(self.raiz)
     
-    def cantidad_nodos_en_nivel(self, nivel):
-        def contarCantidadDeNivel(nodo, nivel, nivelActual):
+    def nodos_en_nivel(self, nivel):
+        def mostrarNodosDeNivel(nodo:'ArbolBinario.NodoArbol', nivelAMostrar, nivelActual) -> None:
             if nodo is None:
-                return 0
-            if nivelActual == nivel:
-                return 1
-            return contarCantidadDeNivel(nodo.hijo_izquierdo, nivel, nivelActual + 1) + contarCantidadDeNivel(nodo.hijo_derecho, nivel, nivelActual + 1)
-            
-        return contarCantidadDeNivel(self.raiz, nivel, 0)
+                raise ValueError("No existe el nivel indicado dentro del arbol")
+            if nivelActual < nivelAMostrar:
+                mostrarNodosDeNivel(nodo.hijo_derecho, nivelAMostrar, nivelActual+1)
+                mostrarNodosDeNivel(nodo.hijo_izquierdo, nivelAMostrar, nivelActual+1)
+            else:
+                print(nodo.valor)
+        mostrarNodosDeNivel(self.raiz, nivel, 0)
     
     def frontera(self):
         def contenidoHojas(nodo):
@@ -335,9 +336,26 @@ class ArbolBinario:
         return lista
 
     
-            
+    def rotar(self):
+        def realizarRotacion(nodo:'ArbolBinario.NodoArbol') -> None:
+            if nodo is None:
+                return
+            hijoACopiar = nodo.hijo_izquierdo
+            nodo.hijo_izquierdo = nodo.hijo_derecho
+            nodo.hijo_derecho = hijoACopiar
+            realizarRotacion(nodo.hijo_izquierdo)
+            realizarRotacion(nodo.hijo_derecho)
+        return realizarRotacion(self.raiz)
 
-                
+    def cantidad_nodos_en_nivel(self, nivel):
+        def contarCantidadDeNivel(nodo, nivel, nivelActual):
+            if nodo is None:
+                return 0
+            if nivelActual == nivel:
+                return 1
+            return contarCantidadDeNivel(nodo.hijo_izquierdo, nivel, nivelActual + 1) + contarCantidadDeNivel(nodo.hijo_derecho, nivel, nivelActual + 1)
+            
+        return contarCantidadDeNivel(self.raiz, nivel, 0)
     
 
             
@@ -381,8 +399,7 @@ match actividad:
         arbol.insertar(18)
         print(f"{bcolors.OKBLUE}Árbol binario de búsqueda creado con los valores: {arbol.recorrido_inorden()}{bcolors.ENDC}")
         nivel = int(input("Ingrese el nivel a consultar: "))
-        cantidad_nodos = arbol.cantidad_nodos_en_nivel(nivel)
-        print(f"{bcolors.OKBLUE}Cantidad de nodos en el nivel {nivel}: {cantidad_nodos}{bcolors.ENDC}")
+        arbol.nodos_en_nivel(nivel)
         
     case 4:
         print(f"{bcolors.OKGREEN} Se define por frontera de un árbol, la secuencia formada por los elementos almacenados en las hojas de un árbol, tomados de izquierda a derecha. Escribir una operación del TDA ABB, que imprima por pantalla la frontera del árbol.{bcolors.ENDC}")
@@ -411,7 +428,31 @@ match actividad:
         print(f"{bcolors.OKBLUE}Árbol binario de búsqueda creado con los valores: {arbol.recorrido_inorden()}{bcolors.ENDC}")
         lista_ordenada = arbol.lista_ordenada()
         print(f"{bcolors.OKBLUE}Lista ordenada de los elementos del árbol: {lista_ordenada}{bcolors.ENDC}")
-        
     case 6:
-        print(f"{bcolors.OKGREEN}Escribir una operación del TDA ABB, que rote el árbol completo{bcolors.ENDC}")
-    
+        print(f"{bcolors.OKGREEN} Escribir una operación del TDA ABB, que rote el árbol completo es decir, los elementos del subárbol izquierdo deben ser mayores a la raíz y los del subárbol derecho menores{bcolors.ENDC}")
+        arbol = ArbolBinario()
+        arbol.insertar(10)
+        arbol.insertar(5)
+        arbol.insertar(15)
+        arbol.insertar(3)
+        arbol.insertar(7)
+        arbol.insertar(12)
+        arbol.insertar(18)
+        print(f"{bcolors.OKBLUE}Árbol binario de búsqueda creado con los valores: {arbol.recorrido_inorden()}{bcolors.ENDC}")
+        print(f"{bcolors.OKBLUE}Árbol antes de rotar: {arbol.recorrido_inorden()}{bcolors.ENDC}")
+        arbol.rotar()
+        print(f"{bcolors.OKBLUE}Árbol después de rotar: {arbol.recorrido_inorden()}{bcolors.ENDC}")
+    case 7:
+        print(f"{bcolors.OKGREEN}Escribir una operación del TDA ABB llamada cantidadNodosEnNivel que retorna la cantidad de nodos del arbol en un nivel determinado.{bcolors.ENDC}")
+        arbol = ArbolBinario()
+        arbol.insertar(10)
+        arbol.insertar(5)
+        arbol.insertar(15)
+        arbol.insertar(3)
+        arbol.insertar(7)  
+        arbol.insertar(12)
+        arbol.insertar(18)
+        print(f"{bcolors.OKBLUE}Árbol binario de búsqueda creado con los valores: {arbol.recorrido_inorden()}{bcolors.ENDC}")
+        nivel = int(input("Ingrese el nivel a consultar: "))
+        cantidad_nodos = arbol.cantidad_nodos_en_nivel(nivel)
+        print(f"{bcolors.OKBLUE}Cantidad de nodos en el nivel {nivel}: {cantidad_nodos}{bcolors.ENDC}")
