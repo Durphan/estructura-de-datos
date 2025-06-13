@@ -129,22 +129,22 @@ class ArbolBinario:
         
         
         
-        def predecesor(self): # El predecesor es el nodo con el valor más grande en el subárbol izquierdo
+        def predecesor(self) -> 'ArbolBinario.NodoArbol': # El predecesor es el nodo con el valor más grande en el subárbol izquierdo
             if not self.tiene_hijo_izquierdo():
                 raise ValueError("No se puede obtener el predecesor de un nodo que no tiene hijo izquierdo")
             return self.hijo_izquierdo.maximo()
         
-        def maximo(self): # El máximo es el nodo con el valor más grande en el subárbol (el que está más a la derecha)
+        def maximo(self) -> 'ArbolBinario.NodoArbol': # El máximo es el nodo con el valor más grande en el subárbol (el que está más a la derecha)
             if not self.tiene_hijo_derecho():
                 return self
             return self.hijo_derecho.maximo()
         
-        def sucesor(self): # El sucesor es el nodo con el valor más pequeño en el subárbol derecho
+        def sucesor(self) -> 'ArbolBinario.NodoArbol': # El sucesor es el nodo con el valor más pequeño en el subárbol derecho
             if not self.tiene_hijo_derecho():
                 raise ValueError("No se puede obtener el sucesor de un nodo que no tiene hijo derecho")
             return self.hijo_derecho.minimo()
             
-        def minimo(self): # El minimo es el nodo con el valor más pequeño en el subárbol (el que está más a la izquierda)
+        def minimo(self) -> 'ArbolBinario.NodoArbol': # El minimo es el nodo con el valor más pequeño en el subárbol (el que está más a la izquierda)
             if not self.tiene_hijo_izquierdo():
                 return self
             return self.hijo_izquierdo.minimo()
@@ -152,10 +152,10 @@ class ArbolBinario:
     def __init__(self):
         self.raiz = None
     
-    def vaciar(self):
+    def vaciar(self) -> None:
         self.raiz = None
     
-    def esta_vacio(self):
+    def esta_vacio(self) -> bool:
         return self.raiz is None
     
     def recorrido_preorden(self) -> str:  # Primero el valor, luego los hijos izquierdo y derecho
@@ -183,7 +183,7 @@ class ArbolBinario:
             return postorden(nodo.hijo_izquierdo) + postorden(nodo.hijo_derecho) + f"{nodo.valor} "
         return postorden(self.raiz).strip() # Elimina los espacios al final
         
-    def insertar(self, elemento):
+    def insertar(self, elemento) -> 'ArbolBinario.NodoArbol':
         nodoAColocar = self.NodoArbol(elemento)
         if self.esta_vacio():
             self.raiz = nodoAColocar
@@ -202,7 +202,7 @@ class ArbolBinario:
             raise ValueError("El elemento que se quiere ingresar ya esta en el nodo")
         return insertarEnArbol(elemento, self.raiz)
                 
-    def __contains__(self, valor):
+    def __contains__(self, valor) -> bool:
         if self.esta_vacio():
             return False
         def buscarValorEnArbol(valor, nodo):
@@ -215,7 +215,7 @@ class ArbolBinario:
             return False
         return buscarValorEnArbol(valor, self.raiz)
     
-    def eliminar(self, valor):
+    def eliminar(self, valor) -> None:
         if self.esta_vacio():
             raise ValueError("No se puede eliminar un nodo en un arbol vacio")
         arbolAux = ArbolBinario()
@@ -229,7 +229,7 @@ class ArbolBinario:
         eliminarDelArbol(valor, self.raiz, arbolAux)
         self.raiz = arbolAux.raiz
         
-    def eliminar_sin_auxiliar(self, valor):
+    def eliminar_sin_auxiliar(self, valor) -> None:
         if self.esta_vacio():
             raise ValueError("No se puede eliminar un nodo en un arbol vacio")
         def eliminarDelArbol(nodo, valor):
@@ -253,7 +253,7 @@ class ArbolBinario:
             return nodo
         self.raiz = eliminarDelArbol(self.raiz, valor)
         
-    def clonar(self):
+    def clonar(self) -> 'ArbolBinario':
         arbolClonado = ArbolBinario()
         def clonarArbol(arbolClonado, nodo):
             if nodo is not None:
@@ -264,7 +264,7 @@ class ArbolBinario:
         return arbolClonado
     
     def peso(self) -> int:
-        def pesoArbol(nodo):
+        def pesoArbol(nodo) -> int:
             if nodo is not None:
                 return 1 + pesoArbol(nodo.hijo_izquierdo) + pesoArbol(nodo.hijo_derecho)
         return pesoArbol(self.raiz)
@@ -282,7 +282,7 @@ class ArbolBinario:
             return 0
         return profundidadArbol(self.raiz)
             
-    def profundidad_elemento(self, elemento):
+    def profundidad_elemento(self, elemento) -> int:
         def medirProfundidadDeElemento(nodo, elemento, nivelProfundidad):
             if nodo is None:
                 return None
@@ -303,7 +303,7 @@ class ArbolBinario:
             return contarHojas(nodo.hijo_izquierdo) + contarHojas(nodo.hijo_derecho)
         return contarHojas(self.raiz)
     
-    def nodos_en_nivel(self, nivel):
+    def nodos_en_nivel(self, nivel) -> str | ValueError:
         def mostrarNodosDeNivel(nodo:'ArbolBinario.NodoArbol', nivelAMostrar, nivelActual) -> None:
             if nodo is None:
                 raise ValueError("No existe el nivel indicado dentro del arbol")
@@ -315,7 +315,7 @@ class ArbolBinario:
         mostrarNodosDeNivel(self.raiz, nivel, 0)
     
     def frontera(self):
-        def contenidoHojas(nodo):
+        def contenidoHojas(nodo) -> str:
             if nodo is None:
                 return ""
             if nodo.es_hoja():
@@ -323,7 +323,7 @@ class ArbolBinario:
             return contenidoHojas(nodo.hijo_izquierdo) + contenidoHojas(nodo.hijo_derecho)
         return contenidoHojas(self.raiz)
             
-    def lista_ordenada(self):
+    def lista_ordenada(self) -> ListaOrdenada:
         lista = ListaOrdenada()
         if self.raiz is None:
             return lista
@@ -336,7 +336,7 @@ class ArbolBinario:
         return lista
 
     
-    def rotar(self):
+    def rotar(self) -> None:
         def realizarRotacion(nodo:'ArbolBinario.NodoArbol') -> None:
             if nodo is None:
                 return
@@ -347,21 +347,15 @@ class ArbolBinario:
             realizarRotacion(nodo.hijo_derecho)
         return realizarRotacion(self.raiz)
 
-    def cantidad_nodos_en_nivel(self, nivel):
-        def contarCantidadDeNivel(nodo, nivel, nivelActual):
+    def cantidad_nodos_en_nivel(self, nivel: int) -> int:
+        def contarCantidadDeNivel(nodo:'ArbolBinario.NodoArbol', nivel: int, nivelActual: int) -> int:
             if nodo is None:
                 return 0
             if nivelActual == nivel:
                 return 1
             return contarCantidadDeNivel(nodo.hijo_izquierdo, nivel, nivelActual + 1) + contarCantidadDeNivel(nodo.hijo_derecho, nivel, nivelActual + 1)
-            
         return contarCantidadDeNivel(self.raiz, nivel, 0)
     
-
-            
-                
-    
-
 match actividad:
     case 1: 
         print(f"{bcolors.OKGREEN}Actividad 1: implementar el TDA Árbol binario de búsqueda{bcolors.ENDC}")
