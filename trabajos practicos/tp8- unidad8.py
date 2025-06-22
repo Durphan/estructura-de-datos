@@ -127,6 +127,10 @@ class ArbolBinario:
                 return 1 + max(alturaDerecha, alturaIzquierda)
             return contarAltura(self)
         
+        def es_balanceado(self) -> bool:
+                altura_izq = self.hijo_izquierdo.altura() if self.tiene_hijo_izquierdo() else 0
+                altura_der = self.hijo_derecho.altura() if self.tiene_hijo_derecho() else 0
+                return abs(altura_izq - altura_der) <= 1
         
         
         def predecesor(self) -> 'ArbolBinario.NodoArbol': # El predecesor es el nodo con el valor más grande en el subárbol izquierdo
@@ -356,6 +360,29 @@ class ArbolBinario:
             return contarCantidadDeNivel(nodo.hijo_izquierdo, nivel, nivelActual + 1) + contarCantidadDeNivel(nodo.hijo_derecho, nivel, nivelActual + 1)
         return contarCantidadDeNivel(self.raiz, nivel, 0)
     
+    def es_balanceado(self) -> bool:
+        if self.raiz is None:
+            raise ValueError("El arbol a saber si es balanceado no tiene raiz")
+        def recorrerArbol(nodo: 'ArbolBinario.NodoArbol'):
+            if nodo.es_hoja():
+                return True
+            return nodo.es_balanceado() and recorrerArbol(nodo.hijo_derecho) and recorrerArbol(nodo.hijo_izquierdo)
+        return recorrerArbol(self.raiz)
+    
+    def es_completo(self) -> bool:
+        if self.raiz is None and self.profundidad() == 0:
+            return True
+        def sonAlteultimosNodosCompletos(nodo:'ArbolBinario.NodoArbol', nivelActual:int):
+            if nodo is None:
+                return True
+            if nivelActual < self.profundidad() - 1:
+                if not nodo.tiene_hijo_derecho() or not nodo.tiene_hijo_izquierdo():
+                    return False
+            if not nodo.tiene_hijo_derecho() and nodo.tiene_hijo_izquierdo():
+                return False
+            return sonAlteultimosNodosCompletos(nodo.hijo_derecho, nivelActual+1) and sonAlteultimosNodosCompletos(nodo.hijo_izquierdo, nivelActual+1)
+    
+    
 match actividad:
     case 1: 
         print(f"{bcolors.OKGREEN}Actividad 1: implementar el TDA Árbol binario de búsqueda{bcolors.ENDC}")
@@ -450,3 +477,5 @@ match actividad:
         nivel = int(input("Ingrese el nivel a consultar: "))
         cantidad_nodos = arbol.cantidad_nodos_en_nivel(nivel)
         print(f"{bcolors.OKBLUE}Cantidad de nodos en el nivel {nivel}: {cantidad_nodos}{bcolors.ENDC}")
+    case 8:
+        print(f"{bcolors.OKGREEN}Definir operaciones del TDA ABB que permita conocer si un arbol esta balanceado, completo, si un arbol cumple las propiedades del mismo y balancear un arbol.{bcolors.ENDC}")
