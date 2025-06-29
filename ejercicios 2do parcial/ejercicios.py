@@ -391,6 +391,29 @@ class ListaEnlazada:
                     nodo.siguiente = nuevoNodo
                 insertarCero(nodo.siguiente)
         insertarCero(self.primero)
+        
+    def eliminar_segmento(self, inicio:int, final:int) -> None:
+        if inicio < 0 or final < 0:
+            raise ValueError("No se puede eliminar un segmento con un menor o final negativo")
+        if inicio > final:
+            raise ValueError("El valor de inicio debe de ser menor al valor final")
+        def recorrerSegmento(longitudActual:int, nodo: Nodo):
+            if longitudActual < inicio:
+                if nodo.tiene_siguiente():
+                    recorrerSegmento(longitudActual+1, nodo.siguiente)
+                    return
+                raise ValueError("La longitud de inicio es mayor a la longitud de la lista")
+            if longitudActual < final and nodo.tiene_siguiente():
+                if nodo.siguiente.tiene_siguiente():
+                    nodoSiguiente = nodo.siguiente.siguiente
+                    nodo.siguiente = nodoSiguiente
+                    recorrerSegmento(longitudActual+1, nodo)
+                    return
+                nodo.siguiente = None
+        recorrerSegmento(0, self.primero)
+                
+                
+            
     
     
 class TuplaDic:
@@ -774,6 +797,30 @@ class ArbolBinario:
             return total + totalDeMayores(nodo.hijo_derecho,total) + totalDeMayores(nodo.hijo_izquierdo, total)
         return totalDeMayores(self.raiz, 0)
                 
+    def obtener_hermano(self, numeroHermano:int) -> int | None:
+        if self.raiz.valor == numeroHermano or self.esta_vacio():
+            return None
+        def buscarHermano(nodo: 'ArbolBinario.NodoArbol') -> int | None:
+            if nodo is None:
+                return None
+            if nodo.tiene_hijo_izquierdo and nodo.hijo_izquierdo.valor == numeroHermano:
+                if nodo.tiene_hijo_derecho:
+                    return nodo.hijo_derecho.valor
+                return None
+            if nodo.tiene_hijo_derecho and nodo.hijo_derecho.valor == numeroHermano:
+                if nodo.tiene_hijo_izquierdo:
+                    return nodo.hijo_derecho.valor
+                return None
+            resultado = buscarHermano(nodo.hijo_derecho)
+            if resultado is None:
+                return buscarHermano(nodo.hijo_izquierdo)
+            return resultado
+        return buscarHermano(self.raiz)
+        
+                        
+                    
+            
+            
             
         
                 
@@ -914,3 +961,49 @@ match actividad:
         print(f"Lista original: {lista}")
         lista.insertar_ceros()
         print(f"Lista luego de insertar ceros entre pares: {lista}")  # Deberia de ser 2, 0, 4, 0, 6, 0, 8
+    case 11:
+        print(f"{bcolors.OKGREEN}Actividad 11: Escribir la función resta que recibe dos diccionarios como parámetro (dic1 y dic2) y retorna un nuevo diccionario con la resta los dos {bcolors.ENDC}")
+        def diferenciaDiccionarios(diccionarioA: Diccionario, diccionarioB: Diccionario) -> Diccionario:
+            diccionarioResultado = Diccionario()
+            for clave in diccionarioA.keys():
+                if clave in diccionarioB:
+                    continue
+                diccionarioResultado.insert(clave, diccionarioA[clave])
+            return diccionarioResultado
+        diccionario1 = Diccionario("a", 5)
+        diccionario1.insert("b", 10)
+        diccionario1.insert("c", 15)
+        diccionario2 = Diccionario("a", 4)
+        diccionario2.insert("b", 10)
+        diccionario2.insert("d", 6)
+        print(f"Diccionario 1: {diccionario1}")
+        print(f"Diccionario 2: {diccionario2}")
+        resultado = diferenciaDiccionarios(diccionario1, diccionario2)
+        print(f"Resta: {resultado}")  # Deberia de ser {'c': 15 }
+    case 12:
+        print(f"{bcolors.OKGREEN}Actividad 12: Escribir la operación obtenerHermano del TDA ABB que recibe un número N y retorna el número del nodo hermano del nodo que contiene al número N.{bcolors.ENDC}")
+        arbol = ArbolBinario()
+        arbol.insertar(10)
+        arbol.insertar(5)
+        arbol.insertar(15)
+        arbol.insertar(3)
+        arbol.insertar(7)
+        arbol.insertar(12)
+        arbol.insertar(18)
+        print(f"Arbol: {arbol.recorrido_inorden()}")
+        numeroHermano = 5
+        resultado = arbol.obtener_hermano(numeroHermano)
+        print(f"Hermano del nodo {numeroHermano}: {resultado}")  # Deberia de ser 15, ya que 5 es el hijo izquierdo de 10 y 15 es el hijo derecho
+    case 13:
+        print(f"{bcolors.OKGREEN}Actividad 13: Escribir la operación eliminarSegmento del TDA Lista, que recibe dos posiciones (“inicio” y “final”) como entrada y elimina todos los nodos en la lista entre ambas (incluidas). {bcolors.ENDC}")
+        lista = ListaEnlazada()
+        lista.append(1)
+        lista.append(2)
+        lista.append(3)
+        lista.append(4)
+        lista.append(5)
+        print(f"Lista original: {lista}")
+        inicio = 1
+        final = 3
+        lista.eliminar_segmento(inicio, final)
+        print(f"Lista luego de eliminar segmento desde {inicio} hasta {final}: {lista}")  # Deberia de ser 1, 2, 5, ya que se eliminan los nodos 3 y 4
