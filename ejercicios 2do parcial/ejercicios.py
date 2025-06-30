@@ -413,7 +413,20 @@ class ListaEnlazada:
         recorrerSegmento(0, self.primero)
                 
                 
-            
+    def par_impar(self):
+        def recorrerLista(nodo:Nodo):
+            if nodo.siguiente is None:
+                return
+            if (nodo.valor % 2 == 0 and nodo.siguiente.valor % 2 == 0) or (nodo.valor % 2 != 0 and nodo.siguiente.valor % 2 != 0):
+                if nodo.siguiente.tiene_siguiente():
+                    nodoSiguiente = nodo.siguiente.siguiente
+                    nodo.siguiente = nodoSiguiente
+                else:
+                    nodo.siguiente = None
+                recorrerLista(nodo)
+            else:
+                recorrerLista(nodo.siguiente)
+        recorrerLista(self.primero)
     
     
 class TuplaDic:
@@ -804,10 +817,10 @@ class ArbolBinario:
             if nodo is None:
                 return None
             if nodo.tiene_hijo_izquierdo and nodo.hijo_izquierdo.valor == numeroHermano:
-                if nodo.tiene_hijo_derecho:
+                if nodo.tiene_hijo_derecho():
                     return nodo.hijo_derecho.valor
                 return None
-            if nodo.tiene_hijo_derecho and nodo.hijo_derecho.valor == numeroHermano:
+            if nodo.tiene_hijo_derecho() and nodo.hijo_derecho.valor == numeroHermano:
                 if nodo.tiene_hijo_izquierdo:
                     return nodo.hijo_derecho.valor
                 return None
@@ -819,7 +832,17 @@ class ArbolBinario:
         
                         
                     
-            
+    def maxima_hoja(self) -> int:
+        if self.esta_vacio():
+            return 0
+        def buscarMaximaHoja(nodo:'ArbolBinario.NodoArbol'):
+            if nodo.tiene_hijo_derecho():
+                if nodo.hijo_derecho.es_hoja():
+                    return nodo.hijo_derecho.valor
+                return buscarMaximaHoja(nodo.hijo_derecho)
+            if nodo.tiene_hijo_izquierdo() and nodo.hijo_izquierdo.es_hoja():
+                return nodo.hijo_izquierdo.valor
+            return nodo.valor
             
             
         
@@ -1007,3 +1030,35 @@ match actividad:
         final = 3
         lista.eliminar_segmento(inicio, final)
         print(f"Lista luego de eliminar segmento desde {inicio} hasta {final}: {lista}")  # Deberia de ser 1, 2, 5, ya que se eliminan los nodos 3 y 4
+    case 14:
+        print(f"{bcolors.OKGREEN}Actividad 14: Escribir una función intercambiaClaveValor(diccionario) que recibe un diccionario y retorna otro intercambiando las claves con los valores del original. Si en el diccionario original hay un valor duplicado, en el diccionario de salida queda como clave y como valor se debe poner una lista con las claves originales.{bcolors.ENDC}")
+        def diccionarioInvertido(diccionario:Diccionario) -> Diccionario:
+            diccionarioResultado = Diccionario()
+            for clave in diccionario.keys():
+                if diccionario[clave] not in diccionarioResultado:
+                    diccionarioResultado.insert(diccionario[clave], [clave])
+                    continue
+                diccionarioResultado[diccionario[clave]].append(clave)
+            return diccionarioResultado
+        diccionario = Diccionario("a", 1)
+        diccionario.insert("b", 2)
+        diccionario.insert("c", 1)
+        diccionario.insert("d", 3)
+        print(f"Diccionario original: {diccionario}")
+        resultado = diccionarioInvertido(diccionario)
+        print(f"Diccionario invertido: {resultado}")  # Deberia de ser {'1': ['a', 'c'], '2': ['b'], '3': ['d`]}
+    case 15:
+        print(f"{bcolors.OKGREEN}Actividad 15: Escribir la función parImpar del TDA Lista, que recibe una lista de números enteros y la modifica eliminando elementos, de manera que nunca queden dos pares ni dos impares seguidos.{bcolors.ENDC}")
+        lista = ListaEnlazada()
+        lista.append(2)
+        lista.append(4)
+        lista.append(6)
+        lista.append(8)
+        lista.append(1)
+        lista.append(3)
+        lista.append(5)
+        print(f"Lista original: {lista}")
+        lista.par_impar()
+        print(f"Lista luego de eliminar pares e impares consecutivos: {lista}")
+    case 16:
+        print(f"{bcolors.OKGREEN}Actividad 16: Escribir una función maximaHoja del TDA ABB, que retorna el elemento máximo entre todos los elementos de las hojas de un ABB. La operación puede hacer uso de las operaciones del TDA ABB: estaVacio y del TDA NodoArbol: tieneIzquierdo y tieneDerecho.{bcolors.ENDC}")
